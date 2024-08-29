@@ -14,7 +14,7 @@ if(fs.existsSync('todos.json')){
     }
 }
 
-// section to enable adding todo in the array
+//  To enable adding todo in the array
 
 program
     .name("index")
@@ -47,34 +47,23 @@ program
         })
     })
 
-// section to delete todo ...
+// To delete todo ...
 program
     .command('delete-todo')
     .description('delete todo from file')
-    .argument('<string>', 'Todo to delete')
-    .action((id) => {
-        fs.readFile('todos.json', 'utf-8', (err, data) => {
-            if(err){
+    .action(() => {
+        todos.splice(0, todos.length - 1)
+
+        const newTodos = todos
+        fs.writeFile('todos.json', JSON.stringify(newTodos), (err) => {
+            if(err) {
+                console.log(err)
                 throw err
             }
 
-        const set = JSON.parse(data)
-        let  i = 0;
-        while(i < set.length){
-            if(set[i].id == id) {
-                break;
-            }
-            else{
-                i++;
-            }
-        }
-
-        if(i == set.length) {
-            throw new Error("No todo with such id exists !!")
-        }
-
-        console.log(set[i].id)
-        })
+            console.log(newTodos)
+       })
     })
+
 
 program.parse(process.argv)
