@@ -52,8 +52,18 @@ program
     .command('delete-todo')
     .description('delete todo from file')
     .action(() => {
-        todos.splice(0, todos.length - 1)
 
+        if(todos.length == 1){
+            todos.splice(0)
+        }
+        else{   
+            todos.splice(0, todos.length - 1)
+            todos.forEach((element, index) => {
+                element.id = index
+            });
+        }
+       
+        
         const newTodos = todos
         fs.writeFile('todos.json', JSON.stringify(newTodos), (err) => {
             if(err) {
