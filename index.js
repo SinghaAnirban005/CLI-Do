@@ -75,5 +75,26 @@ program
        })
     })
 
+program
+    .command("update-todo")
+    .description("Update your todo's")
+    .argument('<string>', 'Update todo')
+    .argument('<string>', "Define what to update")
+    .action((id, str) => {
+        todos[id].todo = str
+
+        const newTodos = todos
+
+        fs.writeFile('todos.json', JSON.stringify(newTodos), (err) => {
+            if(err) {
+                throw err
+            }
+            
+            console.log(str)
+            console.log(newTodos)
+            console.log('Sucessfully updated todo !!')
+        })
+    })
+
 
 program.parse(process.argv)
